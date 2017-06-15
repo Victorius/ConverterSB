@@ -29,6 +29,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 /**
  * Created by v.vanichkov on 11.06.2017.
@@ -352,8 +353,13 @@ public class ConverterProvider {
         driver.manage().timeouts().implicitlyWait(5,TimeUnit.SECONDS);
         WebElement summary = driver.findElement(By.xpath("//span[@class='rates-converter-result__total-to']"));//find label with result
         String result = "";
-        WebDriverWait wdw = new WebDriverWait(driver,3);
+        WebDriverWait wdw = new WebDriverWait(driver,10);
         wdw.until(ExpectedConditions.visibilityOf(summary));
+        List<WebElement> selected = driver.findElements(By.xpath("//header/strong"));
+        String endCurrency = selected.get(1).getText();
+        String startCurrency = selected.get(0).getText();
+        String sum = driver.findElement(By.xpath("//form/input")).getAttribute("value").replace(".",",");
+        wdw.until(ExpectedConditions.textMatches(By.xpath("//span[@class='rates-converter-result__total-from']"), Pattern.compile(sum+".*"+startCurrency)));
         if (summary.isEnabled() && summary.isDisplayed()) {//if result is available
             result = summary.getText();//.substring(0,summary.getText().indexOf(" "));//then return result with value from label
             result = result.substring(0,result.lastIndexOf(" ")).replaceAll(" ","")
@@ -362,14 +368,39 @@ public class ConverterProvider {
         return result;
     }
 
+    /**
+     * Method check the situation when element (radio-button) is displayed but it is disabled.
+     * @param element checked element
+     * @return <code>boolean</code> if element disabled and displayed.
+     */
+    public boolean isNotAvailableElement(WebElement element){
+        boolean result = !element.isEnabled() && element.isDisplayed();
+        return result;
+    }
 
     /**
-     *
-     * @return
+     * Method check the existing of element.
+     * @param xpath path to element in html-page
+     * @return true if element exists and  is displayed, and false in another cases.
+     */
+    public boolean isShowed(String xpath){
+        boolean result = false;
+        try{
+            WebElement existElement = driver.findElement(By.xpath(xpath));
+            result = existElement.isDisplayed();
+        }catch(org.openqa.selenium.NoSuchElementException e){
+            result = false;
+        }
+        return result;
+    }
+
+    /**
+     * Method check the label of service package
+     * @return true if result exists and is displayed.
      */
     @Step
-    public Object getEtalonResult(){
-        return null;
+    public boolean checkLabelServicePackage(){
+        return this.isShowed("//span[@class='rates-aside__error']");
     }
 
     /**
@@ -386,6 +417,8 @@ public class ConverterProvider {
                         positionOfButton+
                         "]/span[@class='radio']"));
     }
+
+
 
     @Step
     public void quit() {
