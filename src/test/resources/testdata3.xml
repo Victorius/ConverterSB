@@ -1,0 +1,13 @@
+<testconfiguration number='1' dateformat='dd-MM-yyyy hh:mm' >
+	<testcase position='1'>
+		<from>5</from>
+		<to>4</to>
+		<sum>20</sum>
+		<source>3</source>
+		<destination>2</destination>		
+		<method>2</method>
+		<servicepackage>2</servicepackage>
+		<date type="custom">01-02-2017 19:50</date>
+		<result>0,13 GBP</result>
+	</testcase>>
+</testconfiguration>
