@@ -1,0 +1,25 @@
+
+<testconfiguration number='2' dateformat='dd-MM-yyyy hh:mm' >
+	<testcase position='1'>
+		<from>1</from>
+		<to>3</to>
+		<sum>1</sum>
+		<source>1</source>
+		<destination>1</destination>		
+		<method>1</method>
+		<servicepackage>2</servicepackage>
+		<date type="custom">01-02-2017 19:50</date>
+		<result>0,02 EUR</result>
+	</testcase>
+	<testcase position='2'>
+		<from>5</from>
+		<to>2</to>
+		<sum>10</sum>
+		<source>3</source>
+		<destination>2</destination>		
+		<method>2</method>
+		<servicepackage>3</servicepackage>
+		<date type="custom">02-04-2017 19:50</date>
+		<result>0,08 CHF</result>
+	</testcase>
+</testconfiguration>
